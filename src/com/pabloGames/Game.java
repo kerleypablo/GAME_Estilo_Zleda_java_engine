@@ -10,12 +10,16 @@ import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import javax.swing.JFrame;
 
+import com.pabloGames.entities.Enemy;
 import com.pabloGames.entities.Entity;
 import com.pabloGames.entities.Player;
 import com.pabloGames.graficos.Spritesheet;
+import com.pabloGames.graficos.UI;
+import com.pabloGames.word.World;
 
 public class Game extends Canvas implements Runnable, KeyListener {
 	
@@ -24,28 +28,40 @@ public class Game extends Canvas implements Runnable, KeyListener {
 	public static JFrame frame;
 	private Thread thread;
 	private boolean isRunning = true;
-	private final int WIDTH = 240;
-	private final int HEIGHT = 160;
-	private final int SCALE = 3;
+	public static final int WIDTH = 240;
+	public static int HEIGHT = 160;
+	private final int SCALE = 4;
 	
 	private BufferedImage image;
 	
-	public List<Entity> entities;
+	public static List<Entity> entities;
+	public static List<Enemy> enemies;
 	public static Spritesheet spritesheet;
 	
-	private Player player;
+	public static World world;
+	
+	public static  Player player;
+	
+	public static Random rand;
+	
+	public UI ui;
 
 	
 	public Game() {
+		rand = new Random();
 		addKeyListener(this);
 		setPreferredSize(new Dimension(WIDTH*SCALE,HEIGHT*SCALE));
 		initiFrame();
 		//inicializando objetos 
+		ui = new UI();
 		image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
 		entities = new ArrayList<Entity>();
+		enemies = new ArrayList<Enemy>();
 		spritesheet = new Spritesheet("/spritesheet.png");
 		player = new  Player(0,0,16,16,spritesheet.getSprite(0, 0, 16, 16));
 		entities.add(player);
+		world = new World("/map.png");
+		
 	}
 	
 	
@@ -98,17 +114,18 @@ public class Game extends Canvas implements Runnable, KeyListener {
 			return;
 		}
 		Graphics g = image.getGraphics();
-		g.setColor(new Color(20,60,60));
+		g.setColor(new Color(0,0,0));
 		g.fillRect(0, 0, WIDTH, HEIGHT);
 		
 		//renderização do jogo
 		//Graphics2D g2 = (Graphics2D) g;
+		world.render(g);
 		for(int i = 0; i < entities.size(); i++) {
 			Entity e = entities.get(i);
 			e.render(g);
 		}
 		
-
+		ui.render(g);
 		g.dispose();
 		g = bs.getDrawGraphics();
 		g.drawImage(image, 0, 0, WIDTH*SCALE, HEIGHT*SCALE, null);
@@ -124,6 +141,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
 		double delta = 0;
 		int frames = 0;
 		double timer = System.currentTimeMillis();
+		requestFocus();
 		while (isRunning) {
 			long now = System.nanoTime();
 			delta+= (now - lastTime) / ns;

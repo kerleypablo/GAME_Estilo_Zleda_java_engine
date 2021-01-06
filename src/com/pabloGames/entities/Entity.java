@@ -3,8 +3,16 @@ package com.pabloGames.entities;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
+import com.pabloGames.Game;
+import com.pabloGames.word.Camera;
+
 public class Entity {
 
+	public static BufferedImage LIFEPACK_EN = Game.spritesheet.getSprite(4*16, 0, 16, 16);
+	public static BufferedImage WAPON_EN = Game.spritesheet.getSprite(4*16, 16, 16, 16);
+	public static BufferedImage ENERGY_EN = Game.spritesheet.getSprite(6*16, 0, 16, 16);
+	public static BufferedImage ENEMY_EN = Game.spritesheet.getSprite(5*16, 16, 16, 16);
+	
 	protected double  x; 
 	protected double  y;
 	protected int  width;
@@ -25,7 +33,7 @@ public class Entity {
 	}
 
 	public void setX(int newx) {
-		this.x = x;
+		this.x = newx;
 	}
 
 	public int getY() {
@@ -33,7 +41,7 @@ public class Entity {
 	}
 
 	public void setY(int newy) {
-		this.y = y;
+		this.y = newy;
 	}
 
 	public int getWidth() {
@@ -54,7 +62,7 @@ public class Entity {
 	
 	
 	public void render( Graphics g) {
-		g.drawImage(sprite, this.getX(), this.getY(), null);
+		g.drawImage(sprite, this.getX()  - Camera.x, this.getY() - Camera.y, null);
 	}
 	
 	
