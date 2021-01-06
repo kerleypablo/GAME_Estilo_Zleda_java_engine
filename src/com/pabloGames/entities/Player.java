@@ -1,5 +1,6 @@
 package com.pabloGames.entities;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
@@ -26,7 +27,7 @@ public class Player extends Entity{
 	
 	public static double life = 100, maxLife = 100;
 	
-	public static double energy = 100, maxEnergy = 100;
+	public static double energy = 80, maxEnergy = 100;
 	
 	public Player(int x, int y, int width, int height, BufferedImage sprite) {
 		super(x, y, width, height, sprite);
@@ -81,14 +82,54 @@ public class Player extends Entity{
 					index=0;
 			}
 		}
+		this.checkColisionLifepack();
+		
+		this.checkColisionEnergypack();
+		
 		Camera.x = Camera.clamp(this.getX() - (Game.WIDTH/2),0,World.WIDTH*16 - Game.WIDTH);
 		Camera.y = Camera.clamp(this.getY() - (Game.HEIGHT/2),0,World.HEIGTH*16 - Game.HEIGHT);
 	}
 	
+	public void checkColisionLifepack() {
+		for(int i = 0 ; i < Game.entities.size(); i++) {
+			Entity atual = Game.entities.get(i);
+			if(atual instanceof Lifepack) {
+				if(Entity.iscolidding(this, atual)) {
+					life+=10;
+					if(life >=100) {
+						life = 100;
+					}
+					Game.entities.remove(atual);
+					return;
+				}
+			}
+			
+		}
+	}
+	
+	
+	public void checkColisionEnergypack() {
+		for(int i = 0 ; i < Game.entities.size(); i++) {
+			Entity atual = Game.entities.get(i);
+			if(atual instanceof Energy) {
+				if(Entity.iscolidding(this, atual)) {
+					energy+=10;
+					if(energy >=100) {
+						energy = 100;
+					}
+					Game.entities.remove(atual);
+					return;
+				}
+			}
+			
+		}
+	}
 	
 	
 	
 	public void render(Graphics g) {
+		//g.setColor(Color.red);
+		//g.fillRect(this.getX() +maskx  - Camera.x, this.getY() + masky - Camera.y, mwidth , mheight);
 		if(dir == right_dir) {
 			g.drawImage(rightPlayer[index], this.getX() - Camera.x,this.getY()-Camera.y ,null);
 		}else if(dir== left_dir) {

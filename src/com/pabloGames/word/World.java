@@ -53,11 +53,13 @@ public class World {
 						
 					}else if(pixelAtual == 0xffFF00DC) {
 						//energy
-						Game.entities.add(new Energy(xx*16,yy*16,16,16,Entity.ENERGY_EN));
+						Energy packe = (new Energy(xx*16,yy*16,16,16,Entity.ENERGY_EN));
+						Game.entities.add(packe);
 						
 					}else if(pixelAtual == 0xff00FF21) {
 						// life
-						Game.entities.add(new Lifepack(xx*16,yy*16,16,16,Entity.LIFEPACK_EN));
+						Lifepack pack = new Lifepack(xx*16,yy*16,16,16,Entity.LIFEPACK_EN);
+						Game.entities.add(pack);
 					}
 				}
 				

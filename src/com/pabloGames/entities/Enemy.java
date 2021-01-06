@@ -103,9 +103,9 @@ public class Enemy extends Entity {
 	}
 	
 	public boolean iscoliddingwithPlayer() {
-		Rectangle enemyCurrent = new Rectangle(this.getX() + maskx,this.getY() + masky,maskw,maskch);
+		Rectangle enemyCurrent1 = new Rectangle(this.getX() + maskx,this.getY() + masky,maskw,maskch);
 		Rectangle player = new Rectangle(Game.player.getX(),Game.player.getY(),16,16);
-		return enemyCurrent.intersects(player);
+		return enemyCurrent1.intersects(player);
 	}
 	
 	public boolean isColidding(int xnext , int ynext) {
@@ -126,6 +126,7 @@ public class Enemy extends Entity {
 	public void render(Graphics g) {
 		//g.setColor(Color.blue);
 		//g.fillRect(this.getX() + maskx,this.getY() + masky,maskw,maskch);
+		//g.fillRect(((Game.player.getX() - (scalemask * scalemask) )-Camera.x ),(Game.player.getY()- (scalemask * scalemask)) - Camera.y  ,16*scalemask,16*scalemask);
 		if(dir == right_dir) {
 			g.drawImage(rightEnemy[index], this.getX() - Camera.x,this.getY()-Camera.y ,null);
 		}else if(dir== left_dir) {

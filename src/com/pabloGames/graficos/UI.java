@@ -20,8 +20,10 @@ public class UI {
 		g.drawString( Player.life + "/" + (int)Player.maxLife ,25, 9);
 		//***
 		// energy
-		g.setColor(Color.MAGENTA);
+		g.setColor(Color.white);
 		g.fillRect(8, 10, 70,5);
+		g.setColor(Color.MAGENTA);
+		g.fillRect(8, 10,(int)((Player.energy/Player.maxEnergy)*70),5);
 		g.setColor(Color.white);
 		g.setFont(new Font("arial", Font.BOLD,7));
 		g.drawString( Player.energy + "/" + (int)Player.maxEnergy ,25, 15);
